@@ -8,6 +8,7 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ReproduccionController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });

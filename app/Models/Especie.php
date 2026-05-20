@@ -6,18 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Especie extends Model
 {
-    public function lago()
-    {
-        return $this->belongsTo(Lago::class);
-    }
+    protected $table = 'especies';
 
-    public function reproducciones()
-    {
-        return $this->hasMany(Reproduccion::class);
-    }
-
-    public function ventas()
-    {
-        return $this->hasMany(Venta::class);
-    }
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'cantidad',
+        'lago_id'
+    ];
 }

@@ -2,63 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Especie;
 use Illuminate\Http\Request;
 
 class EspecieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $especies = Especie::all();
+
+        return view('especies.index', compact('especies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('especies.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Especie::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'cantidad' => $request->cantidad,
+            'lago_id' => $request->lago_id,
+        ]);
+
+        return redirect()->route('especies.index')
+            ->with('success', 'Especie registrada correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $especie = Especie::findOrFail($id);
+
+        return view('especies.edit', compact('especie'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $especie = Especie::findOrFail($id);
+
+        $especie->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'cantidad' => $request->cantidad,
+            'lago_id' => $request->lago_id,
+        ]);
+
+        return redirect()->route('especies.index')
+            ->with('success', 'Especie actualizada');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $especie = Especie::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $especie->delete();
+
+        return redirect()->route('especies.index')
+            ->with('success', 'Especie eliminada');
     }
 }
