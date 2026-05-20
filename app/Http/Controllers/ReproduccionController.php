@@ -2,63 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reproduccion;
+use App\Models\Especie;
 use Illuminate\Http\Request;
 
 class ReproduccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $reproducciones = Reproduccion::with('especie')->get();
+
+        return view('reproducciones.index',
+            compact('reproducciones'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $especies = Especie::all();
+
+        return view('reproducciones.create',
+            compact('especies'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Reproduccion::create([
+
+            'especie_id' => $request->especie_id,
+
+            'fecha' => $request->fecha,
+
+            'cantidad' => $request->cantidad,
+
+            'observaciones' => $request->observaciones,
+
+        ]);
+
+        return redirect()->route('reproducciones.index')
+            ->with('success', 'Reproducción registrada');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $reproduccion = Reproduccion::findOrFail($id);
+
+        $especies = Especie::all();
+
+        return view('reproducciones.edit',
+            compact('reproduccion', 'especies'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $reproduccion = Reproduccion::findOrFail($id);
+
+        $reproduccion->update([
+
+            'especie_id' => $request->especie_id,
+
+            'fecha' => $request->fecha,
+
+            'cantidad' => $request->cantidad,
+
+            'observaciones' => $request->observaciones,
+
+        ]);
+
+        return redirect()->route('reproducciones.index')
+            ->with('success', 'Reproducción actualizada');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $reproduccion = Reproduccion::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $reproduccion->delete();
+
+        return redirect()->route('reproducciones.index')
+            ->with('success', 'Reproducción eliminada');
     }
 }
