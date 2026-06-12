@@ -17,8 +17,13 @@ class UserController extends Controller
     {
         $search = $request->get('search');
         $users = User::when($search, function ($query, $search) {
-            return $query->where('name', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%");
+            return $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('telefono', 'like', "%{$search}%")
+                  ->orWhere('rol', 'like', "%{$search}%")
+                  ->orWhere('status', 'like', "%{$search}%");
+            });
         })->orderBy('created_at', 'desc')->paginate(10);
 
         if ($request->wantsJson()) {

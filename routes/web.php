@@ -10,7 +10,7 @@ use App\Http\Controllers\ReproduccionController;
 use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
