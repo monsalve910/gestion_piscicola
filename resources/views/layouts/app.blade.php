@@ -29,6 +29,24 @@
 
             <!-- Page Content -->
             <main>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+                    @if (session('success'))
+                        <x-alert type="success" :message="session('success')" autoDismiss />
+                    @endif
+
+                    @if (session('error'))
+                        <x-alert type="error" :message="session('error')" />
+                    @endif
+
+                    @if (session('info'))
+                        <x-alert type="info" :message="session('info')" autoDismiss />
+                    @endif
+
+                    @if (session('warning'))
+                        <x-alert type="warning" :message="session('warning')" />
+                    @endif
+                </div>
+
                 {{ $slot }}
             </main>
         </div>

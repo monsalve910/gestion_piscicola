@@ -4,7 +4,7 @@
         <p class="mt-1 text-sm text-gray-500">Ingresa tus credenciales para acceder al sistema</p>
     </div>
 
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf

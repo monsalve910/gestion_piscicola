@@ -24,6 +24,22 @@
             </div>
 
             <div class="w-full sm:max-w-md mt-2 px-8 py-8 bg-white/95 backdrop-blur-sm shadow-2xl rounded-2xl">
+                @if (session('success'))
+                    <x-alert type="success" :message="session('success')" autoDismiss />
+                @endif
+
+                @if (session('error'))
+                    <x-alert type="error" :message="session('error')" />
+                @endif
+
+                @if (session('info'))
+                    <x-alert type="info" :message="session('info')" autoDismiss />
+                @endif
+
+                @if (session('warning'))
+                    <x-alert type="warning" :message="session('warning')" />
+                @endif
+
                 {{ $slot }}
             </div>
 
