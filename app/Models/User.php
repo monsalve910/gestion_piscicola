@@ -29,6 +29,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function esAdministrador(): bool
+    {
+        return $this->rol === 'administrador';
+    }
+
+    public function esTrabajador(): bool
+    {
+        return $this->rol === 'trabajador';
+    }
+
+    public function redireccionar(): string
+    {
+        return match ($this->rol) {
+            'administrador' => route('admin.dashboard'),
+            'trabajador' => route('trabajador.dashboard'),
+            default => route('dashboard'),
+        };
+    }
+
     public function reportes()
     {
         return $this->hasMany(Reporte::class);
