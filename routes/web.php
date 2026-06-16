@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LagoController;
+use App\Http\Controllers\MonitoreoController;
 use App\Http\Controllers\EspecieController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ReporteController;
@@ -28,6 +29,12 @@ Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->group(functio
         ->names('admin.users');
     Route::patch('usuarios/{user}/toggle-status', [UserController::class, 'toggleStatus'])
         ->name('admin.users.toggle-status');
+
+    Route::resource('lagos', LagoController::class)->names('lagos');
+    Route::patch('lagos/{lago}/toggle-status', [LagoController::class, 'toggleStatus'])
+        ->name('lagos.toggle-status');
+
+    Route::resource('lagos.monitoreos', MonitoreoController::class)->names('monitoreos');
 });
 
 Route::middleware(['auth', 'rol:trabajador'])->prefix('trabajador')->group(function () {
@@ -40,7 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('lagos', LagoController::class);
     Route::resource('especies', EspecieController::class);
     Route::resource('ventas', VentaController::class);
     Route::resource('reportes', ReporteController::class);
