@@ -2,63 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLagoRequest;
+use App\Http\Requests\UpdateLagoRequest;
+use App\Models\Lago;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class LagoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request): View|\Illuminate\Http\JsonResponse
     {
-        //
+        $search = $request->get('search');
+        $lagos = Lago::when($search, function ($query, $search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('nombre', 'like', "%{$search}%")
+                  ->orWhere('ubicacion', 'like', "%{$search}%")
+                  ->orWhere('estado', 'like', "%{$search}%");
+            });
+        })->orderBy('created_at', 'desc')->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'tbody' => view('lagos._table', compact('lagos', 'search'))->render(),
+                'pagination' => $lagos->appends(['search' => $search])->links()->render(),
+            ]);
+        }
+
+        return view('lagos.index', compact('lagos', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('lagos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreLagoRequest $request): RedirectResponse
     {
-        //
+        Lago::create($request->validated());
+
+        return redirect()->route('lagos.index')
+            ->with('success', 'Lago creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Lago $lago): View
     {
-        //
+        return view('lagos.show', compact('lago'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Lago $lago): View
     {
-        //
+        return view('lagos.edit', compact('lago'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateLagoRequest $request, Lago $lago): RedirectResponse
     {
-        //
+        $lago->update($request->validated());
+
+        return redirect()->route('lagos.index')
+            ->with('success', 'Lago actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function toggleStatus(Lago $lago): RedirectResponse
     {
-        //
+        $lago->estado = $lago->esActivo() ? 'inactivo' : 'activo';
+        $lago->save();
+
+        $mensaje = $lago->esActivo()
+            ? 'Lago activado correctamente.'
+            : 'Lago desactivado correctamente.';
+
+        return redirect()->route('lagos.index')
+            ->with('success', $mensaje);
     }
 }

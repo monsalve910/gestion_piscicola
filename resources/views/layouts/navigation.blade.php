@@ -20,6 +20,9 @@
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                             {{ __('Admin') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('lagos.index')" :active="request()->routeIs('lagos.*')">
+                            {{ __('Lagos') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
@@ -83,6 +86,9 @@
             @if (Auth::user()->esAdministrador())
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                     {{ __('Admin') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('lagos.index')" :active="request()->routeIs('lagos.*')">
+                    {{ __('Lagos') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                     {{ __('Usuarios') }}
