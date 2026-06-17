@@ -8,6 +8,7 @@ use App\Http\Controllers\EspecieController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ReproduccionController;
+use App\Http\Controllers\RecomendacionController;
 use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
@@ -35,6 +36,15 @@ Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->group(functio
         ->name('lagos.toggle-status');
 
     Route::resource('lagos.monitoreos', MonitoreoController::class)->names('monitoreos');
+
+    Route::get('recomendaciones', [RecomendacionController::class, 'index'])
+        ->name('recomendaciones.index');
+    Route::get('recomendaciones/{lago}', [RecomendacionController::class, 'show'])
+        ->name('recomendaciones.show');
+    Route::post('recomendaciones/generate', [RecomendacionController::class, 'generate'])
+        ->name('recomendaciones.generate');
+    Route::post('recomendaciones/{lago}/generate', [RecomendacionController::class, 'generateLake'])
+        ->name('recomendaciones.generate-lake');
 });
 
 Route::middleware(['auth', 'rol:trabajador'])->prefix('trabajador')->group(function () {
