@@ -23,6 +23,9 @@
                         <x-nav-link :href="route('lagos.index')" :active="request()->routeIs('lagos.*')">
                             {{ __('Lagos') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('especies.index')" :active="request()->routeIs('especies.*')">
+                            {{ __('Especies') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
@@ -92,6 +95,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('lagos.index')" :active="request()->routeIs('lagos.*')">
                     {{ __('Lagos') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('especies.index')" :active="request()->routeIs('especies.*')">
+                    {{ __('Especies') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                     {{ __('Usuarios') }}

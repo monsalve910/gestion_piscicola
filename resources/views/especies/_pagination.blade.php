@@ -1,0 +1,1 @@
+{{ $especies->appends(['search' => $search])->links() }}
