@@ -18,6 +18,8 @@
             </form>
         </td>
     </tr>
+        </td>
+    </tr>
 @empty
     <tr>
         <td colspan="6" class="px-4 py-3 text-center text-gray-500">No hay especies registradas.</td>

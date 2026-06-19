@@ -17,4 +17,9 @@ class Especie extends Model
     {
         return $this->belongsTo(Lago::class);
     }
+
+    public function reproducciones()
+    {
+        return $this->hasMany(Reproduccion::class);
+    }
 }

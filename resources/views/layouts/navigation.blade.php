@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('especies.index')" :active="request()->routeIs('especies.*')">
                             {{ __('Especies') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('reproducciones.index')" :active="request()->routeIs('reproducciones.*')">
+                            {{ __('Reproducciones') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
@@ -98,6 +101,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('especies.index')" :active="request()->routeIs('especies.*')">
                     {{ __('Especies') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('reproducciones.index')" :active="request()->routeIs('reproducciones.*')">
+                    {{ __('Reproducciones') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                     {{ __('Usuarios') }}

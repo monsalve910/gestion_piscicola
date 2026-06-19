@@ -1,0 +1,1 @@
+{{ $reproducciones->appends(['search' => $search])->links() }}

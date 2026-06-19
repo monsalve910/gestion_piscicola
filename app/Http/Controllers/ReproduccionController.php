@@ -2,63 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Especie;
+use App\Models\Reproduccion;
 use Illuminate\Http\Request;
 
 class ReproduccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->input('search');
+
+        $reproducciones = Reproduccion::with('especie')
+            ->when($search, function ($query, $search) {
+                $query->where('observaciones', 'like', "%{$search}%")
+                    ->orWhereHas('especie', function ($q) use ($search) {
+                        $q->where('nombre', 'like', "%{$search}%");
+                    });
+            })
+            ->latest('fecha')
+            ->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'tbody' => view('reproducciones._table', compact('reproducciones'))->render(),
+                'pagination' => view('reproducciones._pagination', compact('reproducciones', 'search'))->render(),
+            ]);
+        }
+
+        return view('reproducciones.index', compact('reproducciones', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $especies = Especie::all();
+        return view('reproducciones.create', compact('especies'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'especie_id'    => 'required|exists:especies,id',
+            'fecha'         => 'required|date',
+            'cantidad'      => 'required|integer|min:0',
+            'observaciones' => 'nullable|string',
+        ]);
+
+        Reproduccion::create($validated);
+
+        return redirect()->route('reproducciones.index')->with('success', 'Reproducción registrada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Reproduccion $reproduccion)
     {
-        //
+        return view('reproducciones.show', compact('reproduccion'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Reproduccion $reproduccion)
     {
-        //
+        $especies = Especie::all();
+        return view('reproducciones.edit', compact('reproduccion', 'especies'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Reproduccion $reproduccion)
     {
-        //
+        $validated = $request->validate([
+            'especie_id'    => 'required|exists:especies,id',
+            'fecha'         => 'required|date',
+            'cantidad'      => 'required|integer|min:0',
+            'observaciones' => 'nullable|string',
+        ]);
+
+        $reproduccion->update($validated);
+
+        return redirect()->route('reproducciones.index')->with('success', 'Reproducción actualizada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Reproduccion $reproduccion)
     {
-        //
+        $reproduccion->delete();
+
+        return redirect()->route('reproducciones.index')->with('success', 'Reproducción eliminada correctamente.');
     }
 }

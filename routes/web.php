@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('especies', EspecieController::class)->parameters(['especies' => 'especie']);
     Route::resource('ventas', VentaController::class);
     Route::resource('reportes', ReporteController::class);
-    Route::resource('reproducciones', ReproduccionController::class);
+    Route::resource('reproducciones', ReproduccionController::class)->parameters(['reproducciones' => 'reproduccion']);
 });
 
 require __DIR__ . '/auth.php';
