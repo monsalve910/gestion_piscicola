@@ -29,6 +29,12 @@
                         <x-nav-link :href="route('reproducciones.index')" :active="request()->routeIs('reproducciones.*')">
                             {{ __('Reproducciones') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('ventas.index')" :active="request()->routeIs('ventas.*')">
+                            {{ __('Ventas') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">
+                            {{ __('Reportes') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
@@ -104,6 +110,12 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('reproducciones.index')" :active="request()->routeIs('reproducciones.*')">
                     {{ __('Reproducciones') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('ventas.index')" :active="request()->routeIs('ventas.*')">
+                    {{ __('Ventas') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">
+                    {{ __('Reportes') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                     {{ __('Usuarios') }}

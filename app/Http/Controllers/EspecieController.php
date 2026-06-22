@@ -41,6 +41,7 @@ class EspecieController extends Controller
         $validated = $request->validate([
             'nombre'      => 'required|string|max:255',
             'descripcion' => 'nullable|string',
+            'precio'      => 'required|numeric|min:0',
             'cantidad'    => [
                 'required',
                 'integer',
@@ -82,6 +83,7 @@ class EspecieController extends Controller
         $validated = $request->validate([
             'nombre'      => 'required|string|max:255',
             'descripcion' => 'nullable|string',
+            'precio'      => 'required|numeric|min:0',
             'cantidad'    => [
                 'required',
                 'integer',

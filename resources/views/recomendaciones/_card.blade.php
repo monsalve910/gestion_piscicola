@@ -6,14 +6,20 @@
         'Saludable' => ['bg' => 'bg-green-50 border-green-200', 'text' => 'text-green-700', 'badge' => 'bg-green-100 text-green-700'],
         default => ['bg' => 'bg-gray-50 border-gray-200', 'text' => 'text-gray-500', 'badge' => 'bg-gray-100 text-gray-500'],
     };
+    $badgeClase = match ($nivel) {
+        'Alto Riesgo' => 'badge-danger',
+        'Requiere Atención' => 'badge-warning',
+        'Saludable' => 'badge-success',
+        default => 'badge-gray',
+    };
 @endphp
 
-<div class="border-l-4 {{ $clases['bg'] }} {{ str_replace('bg-', 'border-', $clases['badge']) }} rounded-lg p-4">
+<div class="border-l-4 {{ $clases['bg'] }} {{ str_replace('bg-', 'border-', $clases['badge']) }} rounded-xl shadow-sm border border-gray-200 p-4">
     <div class="flex items-start justify-between">
         <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
                 <h3 class="text-lg font-semibold text-gray-900">{{ $lago->nombre }}</h3>
-                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $clases['badge'] }}">
+                <span class="badge {{ $badgeClase }}">
                     {{ $nivel }}
                 </span>
             </div>
@@ -50,7 +56,7 @@
             @else
                 <p class="text-sm text-gray-500 mb-3">Sin monitoreos registrados. No es posible generar recomendaciones.</p>
                 <a href="{{ route('monitoreos.create', $lago) }}"
-                    class="inline-block px-3 py-1.5 text-sm bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                    class="btn-sm btn-primary">
                     + Registrar Monitoreo
                 </a>
             @endif
@@ -58,7 +64,7 @@
 
         <div class="flex items-center gap-2 ml-4 shrink-0">
             <a href="{{ route('recomendaciones.show', $lago) }}"
-                class="px-3 py-1.5 text-sm bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                class="btn-sm btn-primary">
                 Ver Detalle
             </a>
         </div>

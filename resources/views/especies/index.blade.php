@@ -5,15 +5,13 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                 <div class="p-6">
 
                     @if (session('success'))
-                        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
-                            {{ session('success') }}
-                        </div>
+                        <x-alert type="success" :message="session('success')" />
                     @endif
 
                     <div class="flex justify-between items-center mb-4">
@@ -34,20 +32,22 @@
                             <input type="text" placeholder="Buscar especies..."
                                 x-model="search"
                                 @input.debounce.200ms="searchEspecies()"
-                                class="rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500">
+                                class="form-input">
                         </div>
                         <a href="{{ route('especies.create') }}"
-                            class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                            class="btn-primary">
                             + Nueva Especie
                         </a>
                     </div>
 
+                    <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="bg-gray-50 border-b">
                             <tr>
                                 <th class="px-4 py-3">Nombre</th>
                                 <th class="px-4 py-3">Descripción</th>
                                 <th class="px-4 py-3">Cantidad</th>
+                                <th class="px-4 py-3">Precio</th>
                                 <th class="px-4 py-3">Lago</th>
                                 <th class="px-4 py-3">Registro</th>
                                 <th class="px-4 py-3">Acciones</th>
@@ -57,6 +57,7 @@
                             @include('especies._table')
                         </tbody>
                     </table>
+                    </div>
 
                     <div id="especies-pagination" class="mt-4">
                         @include('especies._pagination')
@@ -81,14 +82,14 @@
         </p>
         <div class="flex justify-end gap-3">
             <button type="button" onclick="cerrarModalEliminar()"
-                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                class="btn-secondary btn-sm">
                 Cancelar
             </button>
             <form id="formEliminarEspecie" method="POST" action="">
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">
+                    class="btn-danger btn-sm">
                     Sí, eliminar
                 </button>
             </form>

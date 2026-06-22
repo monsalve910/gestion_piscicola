@@ -1,5 +1,5 @@
 @forelse ($monitoreos as $monitoreo)
-    <tr class="hover:bg-gray-50">
+    <tr class="hover:bg-gray-50 transition-colors duration-150">
         <td class="px-4 py-3 font-medium">{{ $monitoreo->fecha_monitoreo->format('d/m/Y') }}</td>
         <td class="px-4 py-3">{{ $monitoreo->temperatura_agua ? $monitoreo->temperatura_agua . ' °C' : '—' }}</td>
         <td class="px-4 py-3">{{ $monitoreo->ph ?? '—' }}</td>

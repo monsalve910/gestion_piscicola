@@ -15,7 +15,13 @@ class RolMiddleware
             abort(403);
         }
 
-        foreach ($roles as $rol) {
+        // Flatten comma-separated roles (e.g., rol:administrador,trabajador)
+        $allowedRoles = collect($roles)
+            ->flatMap(fn($r) => explode(',', $r))
+            ->map(fn($r) => trim($r))
+            ->toArray();
+
+        foreach ($allowedRoles as $rol) {
             if (Auth::user()->rol === $rol) {
                 return $next($request);
             }

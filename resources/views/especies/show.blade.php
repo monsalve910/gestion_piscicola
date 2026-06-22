@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="py-6">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                 <div class="p-6">
 
                     <dl class="divide-y divide-gray-200">
@@ -27,8 +27,13 @@
                         </div>
 
                         <div class="py-3 grid grid-cols-3 gap-4">
+                            <dt class="text-sm font-medium text-gray-500">Precio</dt>
+                            <dd class="text-sm text-gray-900 col-span-2">${{ number_format($especie->precio, 2) }}</dd>
+                        </div>
+
+                        <div class="py-3 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">Lago</dt>
-                            <dd class="text-sm text-gray-900 col-span-2">{{ $especie->lago->nombre ?? 'N/A' }}</dd>
+                            <dd class="text-sm text-gray-900 col-span-2"><span class="badge-info">{{ $especie->lago->nombre ?? 'N/A' }}</span></dd>
                         </div>
 
                         <div class="py-3 grid grid-cols-3 gap-4">
@@ -43,10 +48,10 @@
                     </dl>
 
                     <div class="flex justify-end gap-2 mt-6">
-                        <a href="{{ route('especies.index') }}" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+                        <a href="{{ route('especies.index') }}" class="btn-secondary">
                             Volver
                         </a>
-                        <a href="{{ route('especies.edit', $especie) }}" class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                        <a href="{{ route('especies.edit', $especie) }}" class="btn-primary">
                             Editar
                         </a>
                     </div>

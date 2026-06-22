@@ -4,7 +4,7 @@
         Ver
     </a>
     <a href="{{ route('monitoreos.edit', [$lago, $monitoreo]) }}"
-        class="text-blue-600 hover:text-blue-900 text-sm font-medium">
+        class="text-amber-600 hover:text-amber-900 text-sm font-medium">
         Editar
     </a>
     <button type="button"

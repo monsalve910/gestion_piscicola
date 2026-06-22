@@ -10,7 +10,12 @@ class Especie extends Model
         'nombre',
         'descripcion',
         'cantidad',
+        'precio',
         'lago_id',
+    ];
+
+    protected $casts = [
+        'precio' => 'decimal:2',
     ];
 
     public function lago()
@@ -21,5 +26,10 @@ class Especie extends Model
     public function reproducciones()
     {
         return $this->hasMany(Reproduccion::class);
+    }
+
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class);
     }
 }

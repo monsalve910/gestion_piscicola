@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                 <div class="p-6">
 
                     <dl class="divide-y divide-gray-200">
@@ -38,10 +38,10 @@
                     </dl>
 
                     <div class="flex justify-end gap-2 mt-6">
-                        <a href="{{ route('reproducciones.index') }}" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+                        <a href="{{ route('reproducciones.index') }}" class="btn-secondary">
                             Volver
                         </a>
-                        <a href="{{ route('reproducciones.edit', $reproduccion) }}" class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                        <a href="{{ route('reproducciones.edit', $reproduccion) }}" class="btn-primary">
                             Editar
                         </a>
                     </div>

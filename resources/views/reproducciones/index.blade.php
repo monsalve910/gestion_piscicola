@@ -5,15 +5,13 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                 <div class="p-6">
 
                     @if (session('success'))
-                        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
-                            {{ session('success') }}
-                        </div>
+                        <x-alert type="success" :message="session('success')" />
                     @endif
 
                     <div class="flex justify-between items-center mb-4">
@@ -34,10 +32,10 @@
                             <input type="text" placeholder="Buscar reproducciones..."
                                 x-model="search"
                                 @input.debounce.200ms="searchReproducciones()"
-                                class="rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500">
+                                class="form-input">
                         </div>
                         <a href="{{ route('reproducciones.create') }}"
-                            class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                            class="btn-primary">
                             + Nueva Reproducción
                         </a>
                     </div>

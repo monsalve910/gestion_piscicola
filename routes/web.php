@@ -15,21 +15,50 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->group(function () {
+// Both roles: dashboard + ventas
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+        $totalEspecies = \App\Models\Especie::count();
+        $totalLagos = \App\Models\Lago::count();
+        $totalReproducciones = \App\Models\Reproduccion::count();
+        $ventasHoy = \App\Models\Venta::whereDate('fecha_venta', today())->sum('total');
+        $ventasMes = \App\Models\Venta::whereMonth('fecha_venta', now()->month)->whereYear('fecha_venta', now()->year)->sum('total');
+        $ventasTotales = \App\Models\Venta::sum('total');
+        $ventasRecientes = \App\Models\Venta::with('especie')->latest()->take(5)->get();
+        $totalEspeciesStock = \App\Models\Especie::sum('cantidad');
+        $totalUsuarios = \App\Models\User::count();
+        $monitoreosMes = \App\Models\Monitoreo::whereMonth('fecha_monitoreo', now()->month)->count();
+        $misVentasHoy = \App\Models\Venta::whereDate('fecha_venta', today())->count();
+        $misVentasMes = \App\Models\Venta::whereMonth('fecha_venta', now()->month)->whereYear('fecha_venta', now()->year)->count();
+        $ultimaVenta = \App\Models\Venta::latest()->first();
 
-    Route::resource('usuarios', UserController::class)
-        ->parameters(['usuarios' => 'user'])
-        ->only(['index', 'create', 'store', 'show', 'edit', 'update'])
-        ->names('admin.users');
-    Route::patch('usuarios/{user}/toggle-status', [UserController::class, 'toggleStatus'])
-        ->name('admin.users.toggle-status');
+        return view('dashboard', compact(
+            'totalEspecies', 'totalLagos', 'totalReproducciones',
+            'ventasHoy', 'ventasMes', 'ventasTotales', 'ventasRecientes',
+            'totalEspeciesStock', 'totalUsuarios', 'monitoreosMes',
+            'misVentasHoy', 'misVentasMes', 'ultimaVenta'
+        ));
+    })->name('dashboard');
+
+    Route::resource('ventas', VentaController::class);
+});
+
+// Auth routes (profile, for any authenticated user)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Admin only
+Route::middleware(['auth', 'verified', 'rol:administrador'])->group(function () {
+    Route::resource('especies', EspecieController::class)->parameters(['especies' => 'especie']);
+    Route::resource('reproducciones', ReproduccionController::class)->parameters(['reproducciones' => 'reproduccion']);
+
+    Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
+    Route::post('reportes/preview', [ReporteController::class, 'preview'])->name('reportes.preview');
+    Route::get('reportes/export-pdf/{tipo}', [ReporteController::class, 'exportPdf'])->name('reportes.export-pdf');
+    Route::get('reportes/export-excel/{tipo}', [ReporteController::class, 'exportExcel'])->name('reportes.export-excel');
 
     Route::resource('lagos', LagoController::class)->names('lagos');
     Route::patch('lagos/{lago}/toggle-status', [LagoController::class, 'toggleStatus'])
@@ -45,22 +74,13 @@ Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->group(functio
         ->name('recomendaciones.generate');
     Route::post('recomendaciones/{lago}/generate', [RecomendacionController::class, 'generateLake'])
         ->name('recomendaciones.generate-lake');
-});
 
-Route::middleware(['auth', 'rol:trabajador'])->prefix('trabajador')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('trabajador.dashboard');
-    })->name('trabajador.dashboard');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('especies', EspecieController::class)->parameters(['especies' => 'especie']);
-    Route::resource('ventas', VentaController::class);
-    Route::resource('reportes', ReporteController::class);
-    Route::resource('reproducciones', ReproduccionController::class)->parameters(['reproducciones' => 'reproduccion']);
+    Route::resource('admin/usuarios', UserController::class)
+        ->parameters(['usuarios' => 'user'])
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update'])
+        ->names('admin.users');
+    Route::patch('admin/usuarios/{user}/toggle-status', [UserController::class, 'toggleStatus'])
+        ->name('admin.users.toggle-status');
 });
 
 require __DIR__ . '/auth.php';

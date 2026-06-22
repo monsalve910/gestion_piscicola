@@ -24,16 +24,18 @@
             </div>
 
             <div class="w-full sm:max-w-md mt-2 px-8 py-8 bg-white/95 backdrop-blur-sm shadow-2xl rounded-2xl">
-                @if (session('success'))
-                    <x-alert type="success" :message="session('success')" autoDismiss />
-                @endif
+                <div class="fixed top-4 right-4 z-[100] flex flex-col gap-3 w-full max-w-sm">
+                    @if (session('success'))
+                        <x-toast type="success" :message="session('success')" />
+                    @endif
+
+                    @if (session('info'))
+                        <x-toast type="info" :message="session('info')" />
+                    @endif
+                </div>
 
                 @if (session('error'))
                     <x-alert type="error" :message="session('error')" />
-                @endif
-
-                @if (session('info'))
-                    <x-alert type="info" :message="session('info')" autoDismiss />
                 @endif
 
                 @if (session('warning'))

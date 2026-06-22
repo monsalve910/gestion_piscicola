@@ -42,11 +42,7 @@ class User extends Authenticatable
 
     public function redireccionar(): string
     {
-        return match ($this->rol) {
-            'administrador' => route('admin.dashboard'),
-            'trabajador' => route('trabajador.dashboard'),
-            default => route('dashboard'),
-        };
+        return route('dashboard');
     }
 
     public function reportes()

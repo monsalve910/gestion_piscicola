@@ -5,3 +5,79 @@
 [x-cloak] {
     display: none;
 }
+
+@layer components {
+    /* Scrollbar styling for sidebar */
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Card hover effect */
+    .card-hover {
+        @apply transition-all duration-200;
+    }
+    .card-hover:hover {
+        @apply shadow-lg -translate-y-0.5;
+    }
+
+    /* Badge colors */
+    .badge {
+        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    }
+    .badge-success {
+        @apply badge bg-green-100 text-green-800;
+    }
+    .badge-warning {
+        @apply badge bg-yellow-100 text-yellow-800;
+    }
+    .badge-danger {
+        @apply badge bg-red-100 text-red-800;
+    }
+    .badge-info {
+        @apply badge bg-blue-100 text-blue-800;
+    }
+    .badge-gray {
+        @apply badge bg-gray-100 text-gray-800;
+    }
+
+    /* Form inputs */
+    .form-input {
+        @apply mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 transition-colors duration-150;
+    }
+    .form-select {
+        @apply mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 transition-colors duration-150;
+    }
+    .form-textarea {
+        @apply mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 transition-colors duration-150;
+    }
+    .form-label {
+        @apply block text-sm font-medium text-gray-700;
+    }
+    .form-error {
+        @apply text-red-600 text-sm mt-1;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        @apply inline-flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white text-sm font-medium rounded-lg hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all duration-150;
+    }
+    .btn-secondary {
+        @apply inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-150;
+    }
+    .btn-danger {
+        @apply inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-150;
+    }
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+}

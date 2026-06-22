@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
             @if (!$lago->esActivo())
@@ -54,31 +54,39 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Recomendaciones Actuales</h3>
                             <form method="POST" action="{{ route('recomendaciones.generate-lake', $lago) }}" class="inline">
                                 @csrf
                                 <button type="submit"
-                                    class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 text-sm">
+                                    class="btn-primary text-sm">
                                     Actualizar Recomendaciones
                                 </button>
                             </form>
                         </div>
 
                         @if ($resultado['monitoreo'])
-                            <div class="mb-4 text-sm text-gray-500">
-                                Basado en el monitoreo del {{ $resultado['monitoreo']->fecha_monitoreo->format('d/m/Y') }}
-                                @if ($resultado['monitoreo']->temperatura_agua)
-                                    · Temp: {{ $resultado['monitoreo']->temperatura_agua }}°C
-                                @endif
-                                @if ($resultado['monitoreo']->ph)
-                                    · pH: {{ $resultado['monitoreo']->ph }}
-                                @endif
-                                @if ($resultado['monitoreo']->nivel_oxigeno)
-                                    · O₂: {{ $resultado['monitoreo']->nivel_oxigeno }} mg/L
-                                @endif
+                            <div class="mb-4 bg-gray-50 rounded-lg p-3 text-sm text-gray-600">
+                                <div class="font-medium text-gray-700 mb-2">Basado en el monitoreo del {{ $resultado['monitoreo']->fecha_monitoreo->format('d/m/Y') }}</div>
+                                <div class="flex flex-wrap gap-2">
+                                    @if ($resultado['monitoreo']->temperatura_agua)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-medium">
+                                            Temp: {{ $resultado['monitoreo']->temperatura_agua }}°C
+                                        </span>
+                                    @endif
+                                    @if ($resultado['monitoreo']->ph)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-green-50 text-green-700 text-xs font-medium">
+                                            pH: {{ $resultado['monitoreo']->ph }}
+                                        </span>
+                                    @endif
+                                    @if ($resultado['monitoreo']->nivel_oxigeno)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 text-xs font-medium">
+                                            O₂: {{ $resultado['monitoreo']->nivel_oxigeno }} mg/L
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
 
                             <div class="space-y-3">
@@ -119,7 +127,7 @@
                 </div>
 
                 @if ($historial->count() > 0)
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4">Historial de Recomendaciones</h3>
                             <div class="space-y-3">
@@ -165,7 +173,7 @@
                     </div>
                 @endif
             @else
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                     <div class="p-6">
                         <div class="flex flex-col items-center justify-center text-gray-400 py-8">
                             <svg class="h-12 w-12 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,7 +183,7 @@
                             <p class="text-base font-medium text-gray-500">Sin datos de monitoreo</p>
                             <p class="text-sm mt-1">No se han registrado monitoreos para este lago.</p>
                             <a href="{{ route('monitoreos.create', $lago) }}"
-                                class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 text-sm">
+                                class="btn-primary text-sm mt-4">
                                 + Registrar Monitoreo
                             </a>
                         </div>
@@ -185,11 +193,11 @@
 
             <div class="mt-6 flex items-center gap-4">
                 <a href="{{ route('recomendaciones.index') }}"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+                    class="btn-secondary">
                     Volver a Recomendaciones
                 </a>
                 <a href="{{ route('lagos.show', $lago) }}"
-                    class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                    class="btn-primary">
                     Ver Lago
                 </a>
             </div>
