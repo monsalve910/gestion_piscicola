@@ -8,11 +8,13 @@
         <td class="px-4 py-3">
             <div class="flex items-center gap-2">
                 <a href="{{ route('ventas.show', $venta) }}" class="text-cyan-600 hover:text-cyan-800 text-sm font-medium">Ver</a>
+                @if(auth()->user()->rol === 'administrador')
                 <a href="{{ route('ventas.edit', $venta) }}" class="text-amber-600 hover:text-amber-800 text-sm font-medium">Editar</a>
                 <button type="button" data-url="{{ route('ventas.destroy', $venta) }}"
                     class="btn-eliminar text-red-600 hover:text-red-800 font-medium text-sm">
                 Eliminar
             </button>
+                @endif
             </div>
         </td>
     </tr>
