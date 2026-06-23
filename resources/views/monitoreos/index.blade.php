@@ -7,6 +7,29 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            @if ($lago->relationLoaded('especie') && $lago->especie)
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="text-gray-500">Especie:</span>
+                        <span class="font-medium text-gray-800">{{ $lago->especie->nombre }}</span>
+                        @if ($lago->especie->tieneParametrosIdeales())
+                            <span class="inline-flex items-center gap-3">
+                                <span class="px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-600">
+                                    T: {{ $lago->especie->temp_min }}°C - {{ $lago->especie->temp_max }}°C
+                                </span>
+                                <span class="px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-600">
+                                    pH: {{ $lago->especie->ph_min }} - {{ $lago->especie->ph_max }}
+                                </span>
+                                <span class="px-2 py-0.5 rounded text-xs font-medium bg-teal-50 text-teal-600">
+                                    O₂: {{ $lago->especie->oxigeno_min }} - {{ $lago->especie->oxigeno_max }} mg/L
+                                </span>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
             <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-4">
@@ -30,9 +53,9 @@
                                 class="form-input">
                         </div>
                         <div class="flex gap-2">
-                            <a href="{{ route('lagos.show', $lago) }}"
+                            <a href="{{ route('monitoreos.seleccionar') }}"
                                 class="btn-secondary">
-                                Volver al Lago
+                                ← Volver a lagos
                             </a>
                             <a href="{{ route('monitoreos.create', $lago) }}"
                                 class="btn-primary">

@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('especies.index')" :active="request()->routeIs('especies.*')">
                             {{ __('Especies') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('monitoreos.seleccionar')" :active="request()->routeIs('monitoreos.*')">
+                            {{ __('Monitoreos') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('reproducciones.index')" :active="request()->routeIs('reproducciones.*')">
                             {{ __('Reproducciones') }}
                         </x-nav-link>

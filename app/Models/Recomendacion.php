@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recomendacion extends Model
 {
+    protected $table = 'recomendaciones';
+
     protected $fillable = [
         'lago_id',
         'mensaje',

@@ -12,8 +12,15 @@ use Illuminate\View\View;
 
 class MonitoreoController extends Controller
 {
+    public function seleccionarLago(): View
+    {
+        $lagos = Lago::with('especie')->orderBy('nombre')->get();
+        return view('monitoreos.seleccionar', compact('lagos'));
+    }
+
     public function index(Request $request, Lago $lago): View|\Illuminate\Http\JsonResponse
     {
+        $lago->load('especie');
         $search = $request->get('search');
         $monitoreos = $lago->monitoreos()
             ->when($search, function ($query, $search) {

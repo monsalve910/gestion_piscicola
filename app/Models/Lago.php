@@ -32,7 +32,12 @@ class Lago extends Model
 
     public function especies()
     {
-    return $this->hasMany(Especie::class);
+        return $this->hasMany(Especie::class);
+    }
+
+    public function especie()
+    {
+        return $this->hasOne(Especie::class);
     }
 
     public function recomendaciones()

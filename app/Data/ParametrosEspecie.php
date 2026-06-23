@@ -11,5 +11,6 @@ class ParametrosEspecie
         public readonly ?float $phMin = null,
         public readonly ?float $phMax = null,
         public readonly ?float $oxigenoMin = null,
+        public readonly ?float $oxigenoMax = null,
     ) {}
 }

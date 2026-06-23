@@ -3,19 +3,12 @@
 namespace App\Services;
 
 use App\Contracts\ParametrosEspecieProvider;
+use App\Data\ParametrosEspecie;
 use App\Models\Lago;
 use App\Models\Monitoreo;
 
 class RecomendacionEngine
 {
-    const TEMP_MIN = 24;
-    const TEMP_MAX = 30;
-    const TEMP_CRITICO = 32;
-    const PH_MIN = 6.5;
-    const PH_MAX = 8.5;
-    const OXIGENO_MIN = 4;
-    const OXIGENO_OPTIMO = 5;
-
     private ParametrosEspecieProvider $especieProvider;
 
     public function __construct(?ParametrosEspecieProvider $especieProvider = null)
@@ -41,11 +34,31 @@ class RecomendacionEngine
 
     public function analizar(Monitoreo $monitoreo): array
     {
+        $lago = $monitoreo->lago;
         $recomendaciones = [];
         $parametrosAfectados = [];
 
+        $paramsList = $this->especieProvider->obtenerPorLago($lago);
+
+        if ($paramsList->isEmpty()) {
+            return [
+                'recomendaciones' => [
+                    [
+                        'tipo' => 'informacion',
+                        'mensaje' => 'El lago no tiene una especie con parámetros ideales configurados. Asigne una especie con parámetros para recibir recomendaciones.',
+                        'parametro' => 'general',
+                    ],
+                ],
+                'nivel_riesgo' => 'Sin Datos',
+                'parametros_afectados' => [],
+                'monitoreo' => $monitoreo,
+            ];
+        }
+
+        $params = $paramsList->first();
+
         if ($monitoreo->temperatura_agua !== null) {
-            $resultado = $this->evaluarTemperatura($monitoreo->temperatura_agua);
+            $resultado = $this->evaluarTemperatura($monitoreo->temperatura_agua, $params);
             if ($resultado) {
                 $recomendaciones[] = $resultado;
                 $parametrosAfectados[] = 'temperatura';
@@ -53,7 +66,7 @@ class RecomendacionEngine
         }
 
         if ($monitoreo->ph !== null) {
-            $resultado = $this->evaluarPh($monitoreo->ph);
+            $resultado = $this->evaluarPh($monitoreo->ph, $params);
             if ($resultado) {
                 $recomendaciones[] = $resultado;
                 $parametrosAfectados[] = 'ph';
@@ -61,27 +74,19 @@ class RecomendacionEngine
         }
 
         if ($monitoreo->nivel_oxigeno !== null) {
-            $resultado = $this->evaluarOxigeno($monitoreo->nivel_oxigeno);
+            $resultado = $this->evaluarOxigeno($monitoreo->nivel_oxigeno, $params);
             if ($resultado) {
                 $recomendaciones[] = $resultado;
                 $parametrosAfectados[] = 'oxigeno';
             }
         }
 
-        $especiesRecs = $this->evaluarEspecies($monitoreo);
-        $recomendaciones = array_merge($recomendaciones, $especiesRecs);
-
-        $todosParametros = $parametrosAfectados;
-        if (!empty($especiesRecs)) {
-            $todosParametros[] = 'especies';
-        }
-
-        $nivelRiesgo = $this->clasificarRiesgo(count($todosParametros), $recomendaciones);
+        $nivelRiesgo = $this->clasificarRiesgo(count($parametrosAfectados), $recomendaciones);
 
         if (empty($recomendaciones)) {
             $recomendaciones[] = [
                 'tipo' => 'informacion',
-                'mensaje' => 'Todos los parámetros del agua se encuentran dentro de los rangos óptimos. El lago presenta un estado saludable.',
+                'mensaje' => "Las condiciones del lago son adecuadas para la especie {$params->nombreEspecie}. Todos los parámetros están dentro de los rangos ideales.",
                 'parametro' => 'general',
             ];
         }
@@ -134,28 +139,20 @@ class RecomendacionEngine
         return $contador;
     }
 
-    private function evaluarTemperatura(float $temp): ?array
+    private function evaluarTemperatura(float $temp, ParametrosEspecie $params): ?array
     {
-        if ($temp > self::TEMP_CRITICO) {
-            return [
-                'tipo' => 'advertencia',
-                'mensaje' => "La temperatura del agua es de {$temp}°C, superando el límite crítico de " . self::TEMP_CRITICO . "°C. Existe riesgo para las especies. Se recomienda activar sistemas de aireación y monitorear constantemente.",
-                'parametro' => 'temperatura_agua',
-            ];
-        }
-
-        if ($temp > self::TEMP_MAX) {
-            return [
-                'tipo' => 'advertencia',
-                'mensaje' => "La temperatura del agua es de {$temp}°C, superando el rango óptimo de " . self::TEMP_MIN . "°C - " . self::TEMP_MAX . "°C. Se recomienda aumentar la circulación del agua y reducir la exposición solar.",
-                'parametro' => 'temperatura_agua',
-            ];
-        }
-
-        if ($temp < self::TEMP_MIN) {
+        if ($temp < $params->tempMin) {
             return [
                 'tipo' => 'recomendacion',
-                'mensaje' => "La temperatura del agua es de {$temp}°C, inferior al rango recomendado de " . self::TEMP_MIN . "°C - " . self::TEMP_MAX . "°C. Se recomienda revisar las condiciones y considerar sistemas de calefacción si es necesario.",
+                'mensaje' => "La temperatura de {$temp}°C está por debajo del rango ideal para {$params->nombreEspecie} ({$params->tempMin}°C - {$params->tempMax}°C). Se recomienda aumentar la temperatura del agua.",
+                'parametro' => 'temperatura_agua',
+            ];
+        }
+
+        if ($temp > $params->tempMax) {
+            return [
+                'tipo' => 'advertencia',
+                'mensaje' => "La temperatura de {$temp}°C excede el rango recomendado para {$params->nombreEspecie} ({$params->tempMin}°C - {$params->tempMax}°C). Se recomienda reducir la temperatura del agua y aumentar la circulación.",
                 'parametro' => 'temperatura_agua',
             ];
         }
@@ -163,20 +160,20 @@ class RecomendacionEngine
         return null;
     }
 
-    private function evaluarPh(float $ph): ?array
+    private function evaluarPh(float $ph, ParametrosEspecie $params): ?array
     {
-        if ($ph < self::PH_MIN) {
+        if ($ph < $params->phMin) {
             return [
                 'tipo' => 'recomendacion',
-                'mensaje' => "El pH del agua es de {$ph}, considerado ácido (rango óptimo: " . self::PH_MIN . " - " . self::PH_MAX . "). Se recomienda aplicar correctores de pH como carbonato de calcio para estabilizar el nivel.",
+                'mensaje' => "El pH de {$ph} está por debajo del rango ideal para {$params->nombreEspecie} ({$params->phMin} - {$params->phMax}). El agua está más ácida de lo recomendado.",
                 'parametro' => 'ph',
             ];
         }
 
-        if ($ph > self::PH_MAX) {
+        if ($ph > $params->phMax) {
             return [
                 'tipo' => 'recomendacion',
-                'mensaje' => "El pH del agua es de {$ph}, considerado alcalino (rango óptimo: " . self::PH_MIN . " - " . self::PH_MAX . "). Se recomienda aplicar correctores de pH como materia orgánica o ácidos suaves para reducir la alcalinidad.",
+                'mensaje' => "El pH de {$ph} supera el rango ideal para {$params->nombreEspecie} ({$params->phMin} - {$params->phMax}). El agua está más alcalina de lo recomendado.",
                 'parametro' => 'ph',
             ];
         }
@@ -184,52 +181,25 @@ class RecomendacionEngine
         return null;
     }
 
-    private function evaluarOxigeno(float $oxigeno): ?array
+    private function evaluarOxigeno(float $oxigeno, ParametrosEspecie $params): ?array
     {
-        if ($oxigeno < self::OXIGENO_MIN) {
+        if ($oxigeno < $params->oxigenoMin) {
             return [
                 'tipo' => 'alerta',
-                'mensaje' => "El nivel de oxígeno disuelto es de {$oxigeno} mg/L, críticamente bajo (mínimo recomendado: " . self::OXIGENO_MIN . " mg/L). ¡Acción inmediata requerida! Active sistemas de aireación urgente y reduzca la carga orgánica.",
+                'mensaje' => "Los niveles de oxígeno ({$oxigeno} mg/L) son insuficientes para {$params->nombreEspecie} (mínimo: {$params->oxigenoMin} mg/L). Se recomienda mejorar la aireación del lago urgentemente.",
                 'parametro' => 'nivel_oxigeno',
             ];
         }
 
-        if ($oxigeno < self::OXIGENO_OPTIMO) {
+        if ($oxigeno > $params->oxigenoMax) {
             return [
-                'tipo' => 'recomendacion',
-                'mensaje' => "El nivel de oxígeno disuelto es de {$oxigeno} mg/L, por debajo del rango óptimo de " . self::OXIGENO_OPTIMO . " mg/L. Se recomienda aumentar la aireación y monitorear la calidad del agua.",
+                'tipo' => 'informacion',
+                'mensaje' => "Los niveles de oxígeno ({$oxigeno} mg/L) superan el rango ideal para {$params->nombreEspecie} (máximo: {$params->oxigenoMax} mg/L). Monitorear para evitar sobresaturación.",
                 'parametro' => 'nivel_oxigeno',
             ];
         }
 
         return null;
-    }
-
-    private function evaluarEspecies(Monitoreo $monitoreo): array
-    {
-        $lago = $monitoreo->lago;
-
-        if (!$lago) {
-            return [];
-        }
-
-        $parametros = $this->especieProvider->obtenerPorLago($lago);
-
-        if ($parametros->isEmpty()) {
-            return [];
-        }
-
-        $recomendaciones = [];
-
-        foreach ($parametros as $param) {
-            $recomendaciones[] = [
-                'tipo' => 'informacion',
-                'mensaje' => "La especie {$param->nombreEspecie} está siendo evaluada según sus parámetros ideales (Temperatura: {$param->tempMin}°C - {$param->tempMax}°C, pH: {$param->phMin} - {$param->phMax}, Oxígeno mínimo: {$param->oxigenoMin} mg/L). Pendiente de implementación completa.",
-                'parametro' => "especie:{$param->nombreEspecie}",
-            ];
-        }
-
-        return $recomendaciones;
     }
 
     private function clasificarRiesgo(int $parametrosFuera, array $recomendaciones): string
