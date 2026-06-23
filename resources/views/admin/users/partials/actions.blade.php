@@ -3,10 +3,12 @@
         class="text-cyan-600 hover:text-cyan-900 text-sm font-medium">
         Ver
     </a>
-    <a href="{{ route('admin.users.edit', $user) }}"
-        class="text-amber-600 hover:text-amber-900 text-sm font-medium">
-        Editar
-    </a>
+    @if ($user->id !== Auth::user()->id)
+        <a href="{{ route('admin.users.edit', $user) }}"
+            class="text-amber-600 hover:text-amber-900 text-sm font-medium">
+            Editar
+        </a>
+    @endif
     @if ($user->id !== Auth::user()->id)
         <button type="button"
             onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'toggle-status-{{ $user->id }}' }))"
