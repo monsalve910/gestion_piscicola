@@ -37,6 +37,7 @@
                             <input type="number" name="cantidad" min="0" value="{{ old('cantidad', $reproduccion->cantidad) }}"
                                 class="form-input mt-1 block w-full">
                             @error('cantidad') <p class="form-error mt-1">{{ $message }}</p> @enderror
+                            
                         </div>
 
                         <div class="mb-4">
