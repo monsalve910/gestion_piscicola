@@ -33,7 +33,7 @@ class ReporteService
             'especies' => [
                 'Total especies' => $data->count(),
                 'Total peces' => $data->sum('cantidad'),
-                'Precio promedio' => $data->avg('precio'),
+                'Precio promedio' => $data->sum(fn($e) => $e->precio * $e->cantidad) / max($data->sum('cantidad'), 1),
             ],
             'lagos' => [
                 'Total lagos' => $data->count(),
@@ -119,7 +119,7 @@ class ReporteService
             ->when($filtros['especie_id'] ?? null, fn($q, $v) => $q->where('especie_id', $v))
             ->when($filtros['fecha_desde'] ?? null, fn($q, $v) => $q->whereDate('fecha', '>=', $v))
             ->when($filtros['fecha_hasta'] ?? null, fn($q, $v) => $q->whereDate('fecha', '<=', $v))
-            ->latest('fecha')
+            ->latest()
             ->get();
     }
 
@@ -129,7 +129,7 @@ class ReporteService
             ->when($filtros['especie_id'] ?? null, fn($q, $v) => $q->where('especie_id', $v))
             ->when($filtros['fecha_desde'] ?? null, fn($q, $v) => $q->whereDate('fecha_venta', '>=', $v))
             ->when($filtros['fecha_hasta'] ?? null, fn($q, $v) => $q->whereDate('fecha_venta', '<=', $v))
-            ->latest('fecha_venta')
+            ->latest()
             ->get();
     }
 
@@ -159,7 +159,7 @@ class ReporteService
             ->when($filtros['estado_general'] ?? null, fn($q, $v) => $q->where('estado_general', $v))
             ->when($filtros['fecha_desde'] ?? null, fn($q, $v) => $q->whereDate('fecha_monitoreo', '>=', $v))
             ->when($filtros['fecha_hasta'] ?? null, fn($q, $v) => $q->whereDate('fecha_monitoreo', '<=', $v))
-            ->latest('fecha_monitoreo')
+            ->latest()
             ->get();
     }
 }

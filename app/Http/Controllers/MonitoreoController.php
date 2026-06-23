@@ -22,7 +22,7 @@ class MonitoreoController extends Controller
                       ->orWhere('observaciones', 'like', "%{$search}%");
                 });
             })
-            ->orderBy('fecha_monitoreo', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         if ($request->wantsJson()) {

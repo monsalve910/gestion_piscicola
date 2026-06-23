@@ -19,7 +19,7 @@ class ReproduccionController extends Controller
                         $q->where('nombre', 'like', "%{$search}%");
                     });
             })
-            ->latest('fecha')
+            ->latest()
             ->paginate(10);
 
         if ($request->wantsJson()) {

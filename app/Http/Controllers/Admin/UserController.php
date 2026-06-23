@@ -24,7 +24,7 @@ class UserController extends Controller
                   ->orWhere('rol', 'like', "%{$search}%")
                   ->orWhere('status', 'like', "%{$search}%");
             });
-        })->orderBy('created_at', 'desc')->paginate(10);
+        })->orderBy('id', 'desc')->paginate(10);
 
         if ($request->wantsJson()) {
             return response()->json([
