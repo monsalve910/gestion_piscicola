@@ -69,6 +69,8 @@ Route::middleware(['auth', 'verified', 'rol:administrador'])->group(function () 
     Route::patch('lagos/{lago}/toggle-status', [LagoController::class, 'toggleStatus'])
         ->name('lagos.toggle-status');
 
+    Route::get('monitoreos/seleccionar', [MonitoreoController::class, 'seleccionarLago'])
+        ->name('monitoreos.seleccionar');
     Route::resource('lagos.monitoreos', MonitoreoController::class)->names('monitoreos');
 
     Route::get('recomendaciones', [RecomendacionController::class, 'index'])

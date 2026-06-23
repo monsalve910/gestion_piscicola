@@ -48,6 +48,7 @@
                                 <th class="px-4 py-3">Descripción</th>
                                 <th class="px-4 py-3">Cantidad</th>
                                 <th class="px-4 py-3">Precio</th>
+                                <th class="px-4 py-3">Temp. Ideal</th>
                                 <th class="px-4 py-3">Lago</th>
                                 <th class="px-4 py-3">Registro</th>
                                 <th class="px-4 py-3">Acciones</th>

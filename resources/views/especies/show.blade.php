@@ -37,6 +37,27 @@
                         </div>
 
                         <div class="py-3 grid grid-cols-3 gap-4">
+                            <dt class="text-sm font-medium text-gray-500">Temperatura Ideal</dt>
+                            <dd class="text-sm text-gray-900 col-span-2">
+                                {{ $especie->temp_min ?? '—' }} °C - {{ $especie->temp_max ?? '—' }} °C
+                            </dd>
+                        </div>
+
+                        <div class="py-3 grid grid-cols-3 gap-4">
+                            <dt class="text-sm font-medium text-gray-500">pH Ideal</dt>
+                            <dd class="text-sm text-gray-900 col-span-2">
+                                {{ $especie->ph_min ?? '—' }} - {{ $especie->ph_max ?? '—' }}
+                            </dd>
+                        </div>
+
+                        <div class="py-3 grid grid-cols-3 gap-4">
+                            <dt class="text-sm font-medium text-gray-500">Oxígeno Ideal</dt>
+                            <dd class="text-sm text-gray-900 col-span-2">
+                                {{ $especie->oxigeno_min ?? '—' }} - {{ $especie->oxigeno_max ?? '—' }} mg/L
+                            </dd>
+                        </div>
+
+                        <div class="py-3 grid grid-cols-3 gap-4">
                             <dt class="text-sm font-medium text-gray-500">Registrado</dt>
                             <dd class="text-sm text-gray-900 col-span-2">{{ $especie->created_at->format('d/m/Y H:i') }}</dd>
                         </div>
