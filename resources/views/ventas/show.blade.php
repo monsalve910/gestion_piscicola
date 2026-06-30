@@ -46,9 +46,6 @@
                         <a href="{{ route('ventas.index') }}" class="btn-secondary">
                             Volver
                         </a>
-                        <a href="{{ route('ventas.edit', $venta) }}" class="btn-primary">
-                            Editar
-                        </a>
                     </div>
 
                 </div>
