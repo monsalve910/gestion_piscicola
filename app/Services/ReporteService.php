@@ -33,7 +33,6 @@ class ReporteService
             'especies' => [
                 'Total especies' => $data->count(),
                 'Total peces' => $data->sum('cantidad'),
-                'Precio promedio' => $data->sum(fn($e) => $e->precio * $e->cantidad) / max($data->sum('cantidad'), 1),
             ],
             'lagos' => [
                 'Total lagos' => $data->count(),
