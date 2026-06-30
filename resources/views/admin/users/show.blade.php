@@ -65,10 +65,12 @@
                             class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
                             Volver
                         </a>
-                        <a href="{{ route('admin.users.edit', $user) }}"
-                            class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
-                            Editar
-                        </a>
+                        @if ($user->id !== Auth::user()->id)
+                            <a href="{{ route('admin.users.edit', $user) }}"
+                                class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                                Editar
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

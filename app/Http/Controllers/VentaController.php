@@ -18,7 +18,7 @@ class VentaController extends Controller
                     $q->where('nombre', 'like', "%{$search}%");
                 });
             })
-            ->latest('fecha_venta')
+            ->latest()
             ->paginate(10);
 
         if ($request->wantsJson()) {

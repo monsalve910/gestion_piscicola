@@ -19,7 +19,7 @@ class ReproduccionController extends Controller
                         $q->where('nombre', 'like', "%{$search}%");
                     });
             })
-            ->latest('fecha')
+            ->latest()
             ->paginate(10);
 
         if ($request->wantsJson()) {
@@ -43,13 +43,25 @@ class ReproduccionController extends Controller
         $validated = $request->validate([
             'especie_id'    => 'required|exists:especies,id',
             'fecha'         => 'required|date',
-            'cantidad'      => 'required|integer|min:0',
+            'cantidad'      => 'required|integer|min:1',
             'observaciones' => 'nullable|string',
         ]);
 
+        $especie = Especie::findOrFail($request->especie_id);
+
+        if ($request->cantidad > $especie->cantidad) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'cantidad' => 'La cantidad a reproducir no puede ser mayor que la cantidad disponible de la especie (' . $especie->cantidad . ').'
+                ]);
+        }
+
         Reproduccion::create($validated);
 
-        return redirect()->route('reproducciones.index')->with('success', 'Reproducción registrada correctamente.');
+        return redirect()
+            ->route('reproducciones.index')
+            ->with('success', 'Reproducción registrada correctamente.');
     }
 
     public function show(Reproduccion $reproduccion)
@@ -68,13 +80,25 @@ class ReproduccionController extends Controller
         $validated = $request->validate([
             'especie_id'    => 'required|exists:especies,id',
             'fecha'         => 'required|date',
-            'cantidad'      => 'required|integer|min:0',
+            'cantidad'      => 'required|integer|min:1',
             'observaciones' => 'nullable|string',
         ]);
 
+        $especie = Especie::findOrFail($request->especie_id);
+
+        if ($request->cantidad > $especie->cantidad) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'cantidad' => 'La cantidad a reproducir no puede ser mayor que la cantidad disponible de la especie (' . $especie->cantidad . ').'
+                ]);
+        }
+
         $reproduccion->update($validated);
 
-        return redirect()->route('reproducciones.index')->with('success', 'Reproducción actualizada correctamente.');
+        return redirect()
+            ->route('reproducciones.index')
+            ->with('success', 'Reproducción actualizada correctamente.');
     }
 
     public function destroy(Reproduccion $reproduccion)

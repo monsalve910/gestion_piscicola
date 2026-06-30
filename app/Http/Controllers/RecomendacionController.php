@@ -23,7 +23,7 @@ class RecomendacionController extends Controller
                 $q->where('nombre', 'like', "%{$search}%")
                   ->orWhere('ubicacion', 'like', "%{$search}%");
             });
-        })->orderBy('nombre')->paginate(10);
+        })->orderBy('created_at', 'desc')->paginate(10);
 
         $datos = [];
         foreach ($lagos as $lago) {
