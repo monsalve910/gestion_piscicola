@@ -60,8 +60,6 @@ class EspecieController extends Controller
             ],
             'temp_min'     => 'required|numeric|min:20|max:50',
             'temp_max'     => 'required|numeric|min:20|max:50|gt:temp_min',
-            'ph_min'       => 'required|numeric|min:0|max:14',
-            'ph_max'       => 'required|numeric|min:0|max:14|gt:ph_min',
             'oxigeno_min'  => 'required|numeric|min:0|max:30',
             'oxigeno_max'  => 'required|numeric|min:0|max:30|gt:oxigeno_min',
         ], [
@@ -70,13 +68,13 @@ class EspecieController extends Controller
             'temp_min.min' => 'La temperatura mínima debe ser mayor o igual a 20 °C.',
             'temp_max.required' => 'La temperatura máxima es obligatoria.',
             'temp_max.gt' => 'La temperatura máxima debe ser mayor a la temperatura mínima.',
-            'ph_min.required' => 'El pH mínimo es obligatorio.',
-            'ph_max.required' => 'El pH máximo es obligatorio.',
-            'ph_max.gt' => 'El pH máximo debe ser mayor al pH mínimo.',
             'oxigeno_min.required' => 'El oxígeno mínimo es obligatorio.',
             'oxigeno_max.required' => 'El oxígeno máximo es obligatorio.',
             'oxigeno_max.gt' => 'El oxígeno máximo debe ser mayor al oxígeno mínimo.',
         ]);
+
+        $validated['ph_min'] = 6.5;
+        $validated['ph_max'] = 8.5;
 
         Especie::create($validated);
 
@@ -120,8 +118,6 @@ class EspecieController extends Controller
             ],
             'temp_min'     => 'required|numeric|min:20|max:50',
             'temp_max'     => 'required|numeric|min:20|max:50|gt:temp_min',
-            'ph_min'       => 'required|numeric|min:0|max:14',
-            'ph_max'       => 'required|numeric|min:0|max:14|gt:ph_min',
             'oxigeno_min'  => 'required|numeric|min:0|max:30',
             'oxigeno_max'  => 'required|numeric|min:0|max:30|gt:oxigeno_min',
         ], [
@@ -130,13 +126,13 @@ class EspecieController extends Controller
             'temp_min.min' => 'La temperatura mínima debe ser mayor o igual a 20 °C.',
             'temp_max.required' => 'La temperatura máxima es obligatoria.',
             'temp_max.gt' => 'La temperatura máxima debe ser mayor a la temperatura mínima.',
-            'ph_min.required' => 'El pH mínimo es obligatorio.',
-            'ph_max.required' => 'El pH máximo es obligatorio.',
-            'ph_max.gt' => 'El pH máximo debe ser mayor al pH mínimo.',
             'oxigeno_min.required' => 'El oxígeno mínimo es obligatorio.',
             'oxigeno_max.required' => 'El oxígeno máximo es obligatorio.',
             'oxigeno_max.gt' => 'El oxígeno máximo debe ser mayor al oxígeno mínimo.',
         ]);
+
+        $validated['ph_min'] = 6.5;
+        $validated['ph_max'] = 8.5;
 
         $especie->update($validated);
 

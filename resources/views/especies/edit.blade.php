@@ -70,18 +70,7 @@
                                     class="form-input" required>
                                 @error('temp_max') <p class="form-error">{{ $message }}</p> @enderror
                             </div>
-                            <div>
-                                <label class="form-label">pH Mínimo</label>
-                                <input type="number" step="0.01" name="ph_min" value="{{ old('ph_min', $especie->ph_min) }}"
-                                    class="form-input" required>
-                                @error('ph_min') <p class="form-error">{{ $message }}</p> @enderror
-                            </div>
-                            <div>
-                                <label class="form-label">pH Máximo</label>
-                                <input type="number" step="0.01" name="ph_max" value="{{ old('ph_max', $especie->ph_max) }}"
-                                    class="form-input" required>
-                                @error('ph_max') <p class="form-error">{{ $message }}</p> @enderror
-                            </div>
+
                             <div>
                                 <label class="form-label">Oxígeno Mínimo (mg/L)</label>
                                 <input type="number" step="0.01" name="oxigeno_min" value="{{ old('oxigeno_min', $especie->oxigeno_min) }}"
