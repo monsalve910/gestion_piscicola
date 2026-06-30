@@ -15,8 +15,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <x-input-label for="fecha_monitoreo" :value="__('Fecha del Monitoreo')" />
-                                <x-text-input id="fecha_monitoreo" type="date" name="fecha_monitoreo"
-                                    :value="old('fecha_monitoreo', date('Y-m-d'))" required />
+                                <x-text-input id="fecha_monitoreo" type="datetime-local" name="fecha_monitoreo"
+                                    :value="old('fecha_monitoreo', date('Y-m-d\TH:i'))" required />
                                 <x-input-error :messages="$errors->get('fecha_monitoreo')" />
                             </div>
 

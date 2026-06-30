@@ -19,7 +19,7 @@ class Monitoreo extends Model
     protected function casts(): array
     {
         return [
-            'fecha_monitoreo' => 'date',
+            'fecha_monitoreo' => 'datetime',
             'temperatura_agua' => 'decimal:2',
             'ph' => 'decimal:2',
             'nivel_oxigeno' => 'decimal:2',
