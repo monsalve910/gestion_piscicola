@@ -15,6 +15,11 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Admin only: CRUD completo de ventas (registrar antes que show para evitar conflicto con route-model binding)
+Route::middleware(['auth', 'verified', 'rol:administrador'])->group(function () {
+    Route::resource('ventas', VentaController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+});
+
 // Both roles: dashboard + ventas (solo index/show)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
@@ -41,11 +46,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('ventas', VentaController::class)->only(['index', 'show']);
-});
-
-// Admin only: CRUD completo de ventas
-Route::middleware(['auth', 'verified', 'rol:administrador'])->group(function () {
-    Route::resource('ventas', VentaController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
 });
 
 // Auth routes (profile, for any authenticated user)
