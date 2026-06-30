@@ -20,7 +20,7 @@
                         </div>
                         <div class="flex border-b pb-3">
                             <dt class="w-1/3 font-semibold text-gray-600">Fecha</dt>
-                            <dd class="w-2/3">{{ $monitoreo->fecha_monitoreo->format('d/m/Y') }}</dd>
+                            <dd class="w-2/3">{{ $monitoreo->fecha_monitoreo->format('d/m/Y H:i') }}</dd>
                         </div>
                         <div class="flex border-b pb-3">
                             <dt class="w-1/3 font-semibold text-gray-600">Temperatura</dt>
