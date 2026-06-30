@@ -34,7 +34,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <x-input-label for="temperatura_agua" :value="__('Temperatura del Agua (°C)')" />
-                                <x-text-input id="temperatura_agua" type="number" step="0.01" name="temperatura_agua"
+                                <x-text-input id="temperatura_agua" type="number" step="0.01" min="0" name="temperatura_agua"
                                     :value="old('temperatura_agua')" placeholder="0.00" />
                                 <x-input-error :messages="$errors->get('temperatura_agua')" />
                             </div>
@@ -48,7 +48,7 @@
 
                             <div>
                                 <x-input-label for="nivel_oxigeno" :value="__('Oxígeno (mg/L)')" />
-                                <x-text-input id="nivel_oxigeno" type="number" step="0.01" name="nivel_oxigeno"
+                                <x-text-input id="nivel_oxigeno" type="number" step="0.01" min="0" name="nivel_oxigeno"
                                     :value="old('nivel_oxigeno')" placeholder="0.00" />
                                 <x-input-error :messages="$errors->get('nivel_oxigeno')" />
                             </div>

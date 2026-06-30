@@ -60,13 +60,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="form-label">Temperatura Mínima (°C)</label>
-                                <input type="number" step="0.01" name="temp_min" value="{{ old('temp_min', $especie->temp_min) }}"
+                                <input type="number" step="0.01" name="temp_min" min="0" value="{{ old('temp_min', $especie->temp_min) }}"
                                     class="form-input" required>
                                 @error('temp_min') <p class="form-error">{{ $message }}</p> @enderror
                             </div>
                             <div>
                                 <label class="form-label">Temperatura Máxima (°C)</label>
-                                <input type="number" step="0.01" name="temp_max" value="{{ old('temp_max', $especie->temp_max) }}"
+                                <input type="number" step="0.01" name="temp_max" min="0" value="{{ old('temp_max', $especie->temp_max) }}"
                                     class="form-input" required>
                                 @error('temp_max') <p class="form-error">{{ $message }}</p> @enderror
                             </div>

@@ -15,7 +15,7 @@ class UpdateMonitoreoRequest extends FormRequest
     {
         return [
             'fecha_monitoreo' => ['required', 'date'],
-            'temperatura_agua' => ['nullable', 'numeric', 'min:-10', 'max:50'],
+            'temperatura_agua' => ['nullable', 'numeric', 'min:0', 'max:50'],
             'ph' => ['nullable', 'numeric', 'min:0', 'max:14'],
             'nivel_oxigeno' => ['nullable', 'numeric', 'min:0', 'max:20'],
             'estado_general' => ['required', 'string', 'in:bueno,regular,malo'],
