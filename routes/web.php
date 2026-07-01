@@ -15,12 +15,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Admin only: CRUD completo de ventas (registrar antes que show para evitar conflicto con route-model binding)
-Route::middleware(['auth', 'verified', 'rol:administrador'])->group(function () {
-    Route::resource('ventas', VentaController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-});
-
-// Both roles: dashboard + ventas (solo index/show)
+// Both roles: dashboard + ventas (create, store, index, show)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         $totalEspecies = \App\Models\Especie::count();
@@ -45,7 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ));
     })->name('dashboard');
 
-    Route::resource('ventas', VentaController::class)->only(['index', 'show']);
+    Route::resource('ventas', VentaController::class)->only(['create', 'store', 'index', 'show']);
 });
 
 // Auth routes (profile, for any authenticated user)

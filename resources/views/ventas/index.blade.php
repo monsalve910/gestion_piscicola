@@ -34,12 +34,10 @@
                                 @input.debounce.200ms="searchVentas()"
                                 class="form-input">
                         </div>
-                        @if(auth()->user()->rol === 'administrador')
                         <a href="{{ route('ventas.create') }}"
                             class="btn-primary">
                             + Nueva Venta
                         </a>
-                        @endif
                     </div>
 
                     <div class="overflow-x-auto">
