@@ -52,7 +52,8 @@ class RecomendacionController extends Controller
         $resultado = $this->engine->analizarLago($lago);
         $historial = $lago->recomendaciones()
             ->where('es_actual', false)
-            ->latest()
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->take(20)
             ->get();
 

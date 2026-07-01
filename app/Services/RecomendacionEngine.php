@@ -18,7 +18,10 @@ class RecomendacionEngine
 
     public function analizarLago(Lago $lago): array
     {
-        $ultimo = $lago->monitoreos()->latest('fecha_monitoreo')->first();
+        $ultimo = $lago->monitoreos()
+            ->orderBy('fecha_monitoreo', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->first();
 
         if (!$ultimo) {
             return [
