@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="wroMCepmkoF1YS14mdLG">
+    <mxGraphModel grid="0" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TotaXw8-weKr8uHl6h99-1" parent="1" style="text;align=center;fontStyle=1;verticalAlign=middle;spacingLeft=3;spacingRight=3;strokeColor=none;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;" value="Recomendaciones de el sistema" vertex="1">
+          <mxGeometry height="26" width="80" x="-44" y="-50" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-9" edge="1" parent="1" source="TotaXw8-weKr8uHl6h99-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="TotaXw8-weKr8uHl6h99-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-10" edge="1" parent="1" source="TotaXw8-weKr8uHl6h99-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="TotaXw8-weKr8uHl6h99-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Admin" vertex="1">
+          <mxGeometry height="60" width="30" x="-38" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-11" edge="1" parent="1" source="TotaXw8-weKr8uHl6h99-3" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" target="TotaXw8-weKr8uHl6h99-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-3" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Sistema" vertex="1">
+          <mxGeometry height="60" width="30" x="360" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-12" edge="1" parent="1" source="TotaXw8-weKr8uHl6h99-4" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="TotaXw8-weKr8uHl6h99-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-4" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="elegir metodo de envio para recibir mensajes" vertex="1">
+          <mxGeometry height="70" width="140" x="81" y="2" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-13" edge="1" parent="1" source="TotaXw8-weKr8uHl6h99-5" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" target="TotaXw8-weKr8uHl6h99-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="a que horario va a recibir los mensajes" vertex="1">
+          <mxGeometry height="70" width="140" x="81" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="TotaXw8-weKr8uHl6h99-6" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="enviar mensajes" vertex="1">
+          <mxGeometry height="70" width="140" x="81" y="210" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
